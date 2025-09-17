@@ -1,0 +1,42 @@
+# Python cache/compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environment
+venv/
+env/
+.venv/
+ENV/
+
+# IDE/editor stuff
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Flask / instance / logs
+instance/
+*.log
+
+# SQLite database files
+*.db
+*.sqlite3
+
+# Environment variables
+.env
+
+# Migrations cache
+migrations/
+
+# Pytest / Coverage
+htmlcov/
+.tox/
+.coverage
+.cache/
+.pytest_cache/
