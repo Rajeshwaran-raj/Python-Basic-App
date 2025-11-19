@@ -33,7 +33,7 @@ INSERT INTO users (name, age) VALUES
 
 ## 🚀 How to Run the Application
 
-1. Set up your environment variables (DB credentials)
+1. Set up your environment variables (DB credentials) refer .env.example
 
 2. Start the application
 
