@@ -27,15 +27,9 @@ INSERT INTO users (name, age) VALUES
 
 ## 🚀 How to Run the Application
 
-1. Install dependencies
+1. Set up your environment variables (DB credentials)
 
-   ```
-   pip install -r requirements.txt
-   ```
-
-2. Set up your environment variables (DB credentials)
-
-3. Start the application
+2. Start the application
 
    ```
    python app.py
