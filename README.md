@@ -2,6 +2,12 @@
 
 A simple Python application that connects to a MySQL database and performs basic operations.
 
+## Project Name
+
+**Python-Basic-App**
+
+This project demonstrates basic Python–MySQL integration using Flask/SQLAlchemy.
+
 ## 📌 Database Setup
 
 Run the following SQL commands to create the database and insert sample data:
@@ -35,8 +41,4 @@ INSERT INTO users (name, age) VALUES
    python app.py
    ```
 
-## 📂 Project Name
 
-**Python-Basic-App**
-
-This project demonstrates basic Python–MySQL integration using Flask/SQLAlchemy.
