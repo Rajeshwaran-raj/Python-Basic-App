@@ -1,55 +1,49 @@
 import os
-from urllib.parse import quote_plus
-from dotenv import load_dotenv
-
-load_dotenv() 
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-load_dotenv()  # Load environment variables from .env
-
-# Read variables
-DB_USERNAME = os.getenv("DB_USERNAME")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_HOST = os.getenv("DB_HOST")
-DB_PORT = os.getenv("DB_PORT")
-DB_NAME = os.getenv("DB_NAME")
-
-# URL-encode password
-DB_PASSWORD_ENCODED = quote_plus(DB_PASSWORD)
-
-# ==============================
-# Database Configuration
-# ==============================
-
-#postgres
-#app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql+psycopg2://{DB_USERNAME}:{DB_PASSWORD_ENCODED}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
-
-#sql
-app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://{DB_USERNAME}:{DB_PASSWORD_ENCODED}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
-
-
+# =====================================
+# In-Memory SQLite Database
+# =====================================
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'  # RAM only
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
-# ==============================
+# =====================================
 # Database Model
-# ==============================
+# =====================================
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     age = db.Column(db.Integer, nullable=False)
 
-# Create tables if not exist
+# =====================================
+# Seed Default Data
+# =====================================
+def seed_default_data():
+    if User.query.count() == 0:
+        default_users = [
+            User(name="Rajesh", age=23),
+            User(name="Priya", age=27),
+            User(name="Kumar", age=30),
+            User(name="Meena", age=22),
+            User(name="Vijay", age=29)
+        ]
+        db.session.bulk_save_objects(default_users)
+        db.session.commit()
+
 with app.app_context():
     db.create_all()
+    seed_default_data()
 
-# ==============================
+
+# =====================================
 # Routes
-# ==============================
+# =====================================
 @app.route('/')
 def index():
     users = User.query.all()
@@ -81,8 +75,8 @@ def delete_user_route(id):
     db.session.commit()
     return redirect(url_for('index'))
 
-# ==============================
+# =====================================
 # Run App
-# ==============================
+# =====================================
 if __name__ == '__main__':
     app.run(debug=True)

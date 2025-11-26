@@ -1,44 +1,45 @@
 # Python-Basic-App
 
-A simple Python application that connects to a MySQL database and performs basic operations.
+A simple Python application that runs completely **in-memory** using Flask and SQLAlchemy.  
+No MySQL or external database is required — all data is stored in RAM and resets on every restart.
 
-## Project Name
+---
 
-**Python-Basic-App**
+## 📌 Project Name
+**Python-Basic-App (In-Memory Version)**
 
-This project demonstrates basic Python–MySQL integration using Flask/SQLAlchemy.
+This project demonstrates how to use Flask + SQLAlchemy with an **in-memory SQLite database**, including seeding default sample data automatically.
 
-## 📌 Database Setup
+---
 
-Run the following SQL commands to create the database and insert sample data:
+## 📦 Database Setup (In-Memory)
 
-```
-CREATE DATABASE exampledb;
+This version uses:
 
-USE exampledb;
 
-CREATE TABLE users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-    age INT NOT NULL
-);
+✔ No database installation  
+✔ No `.env` file required  
+✔ No credentials  
+✔ Auto-creates tables on startup  
+✔ Inserts default sample users automatically  
 
-INSERT INTO users (name, age) VALUES 
-('Rajeshwaran', 24),
-('Sanjay', 28),
-('Priya', 22),
-('Arun', 30),
-('Meena', 26);
-```
+### 🧩 Default Data Inserted Automatically
+
+The following users are added on startup:
+
+| Name          | Age |
+|---------------|-----|
+| Rajesh        | 23  |
+| Priya         | 27  |
+| Kumar         | 30  |
+| Meena         | 22  |
+| Vijay         | 29  |
+
+You do **not** need to run any SQL manually.
+
+---
 
 ## 🚀 How to Run the Application
 
-1. Set up your environment variables (DB credentials) refer .env.example
-
-2. Start the application
-
-   ```
-   python app.py
-   ```
-
+1. Install required dependencies:
 
