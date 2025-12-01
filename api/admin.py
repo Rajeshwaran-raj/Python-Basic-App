@@ -1,2 +1,1 @@
-from django.contrib import admin
-# No models registered (in-memory CRUD only)
+# No admin site configured (no DB models)

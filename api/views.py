@@ -2,13 +2,12 @@ import json
 from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 
-# In-memory storage with sample data
+# In-memory storage with some hard-coded values
 ITEMS = {
-    1: {"id": 1, "name": "Apple", "description": "A red fruit"},
-    2: {"id": 2, "name": "Laptop", "description": "A portable computer"},
-    3: {"id": 3, "name": "Book", "description": "A mystery novel"},
+    1: {"id": 1, "name": "Sample Item 1", "description": "First hard-coded item"},
+    2: {"id": 2, "name": "Sample Item 2", "description": "Second hard-coded item"},
 }
-NEXT_ID = 4   # Next ID after the preloaded ones
+NEXT_ID = 3
 
 
 def parse_body(request):
@@ -89,7 +88,3 @@ def item_detail(request, item_id):
         return JsonResponse({"message": "Item deleted."}, status=204, safe=False)
 
     return HttpResponseNotAllowed(["GET", "PUT", "DELETE"])
-
-
-def api_root(request):
-    return JsonResponse({"message": "API is running"}, status=200)
