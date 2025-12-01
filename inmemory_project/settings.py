@@ -2,11 +2,11 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-inmemory-example-secret-key"
+SECRET_KEY = "dummy-secret-key"
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
-# 🚫 No contrib apps that need DB. Only our API app.
+# Only your API app — nothing else.
 INSTALLED_APPS = [
     "api",
 ]
@@ -14,9 +14,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.common.CommonMiddleware",
-    # CSRF is fine to keep; our API views use @csrf_exempt anyway.
     "django.middleware.csrf.CsrfViewMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 ROOT_URLCONF = "inmemory_project.urls"
@@ -30,7 +28,6 @@ TEMPLATES = [
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
-                # no auth/messages context processors
             ],
         },
     },
@@ -38,9 +35,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "inmemory_project.wsgi.application"
 
-# ⚠️ Dummy DB backend – never actually used.
-# Django requires DATABASES to exist, but this won't create sqlite
-# or any tables, and we never call ORM.
+# Dummy database backend — Django will NOT create sqlite or migrations.
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.dummy",
@@ -54,5 +49,4 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
