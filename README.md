@@ -1,13 +1,11 @@
-# In-memory Django CRUD API (No DB / No Migrations)
+# In-memory Flask CRUD API (No DB)
 
 Python 3.11  
-Django 4.2 (any 4.2.x)
+Flask 2.3.x
 
-This is a minimal backend-only Django project that exposes simple CRUD
-operations over an in-memory store (a Python dict). **No database is used**
-and you **do not need to run any migrations**.
-
-Everything is kept in memory and resets whenever you restart the server.
+This is a minimal Flask backend that exposes simple CRUD operations
+over an in-memory store (a Python dict). **No database is used** and
+everything resets whenever you restart the server.
 
 ## 1. Setup
 
@@ -20,25 +18,25 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## 2. Run the dev server (no migrations needed)
+## 2. Run the server
 
 ```bash
-python manage.py runserver
+python app.py
 ```
 
-Server will start at: <http://127.0.0.1:8000/>
+Server will start at: <http://127.0.0.1:5000/>
 
 ## 3. API endpoints
 
-Base path for the API is `/api/`.
+Base path: `/items`
 
 ### List items
 
-**GET** `/api/items/`
+**GET** `/items`
 
 ### Create item
 
-**POST** `/api/items/`
+**POST** `/items`
 
 Body:
 
@@ -51,13 +49,13 @@ Body:
 
 ### Retrieve single item
 
-**GET** `/api/items/<id>/`
+**GET** `/items/<id>`
 
-Example: `/api/items/1/`
+Example: `/items/1`
 
 ### Update item
 
-**PUT** `/api/items/<id>/`
+**PUT** `/items/<id>`
 
 Body (fields optional, missing fields keep old values):
 
@@ -70,7 +68,7 @@ Body (fields optional, missing fields keep old values):
 
 ### Delete item
 
-**DELETE** `/api/items/<id>/`
+**DELETE** `/items/<id>`
 
 Response (204 No Content):
 
@@ -82,8 +80,8 @@ Response (204 No Content):
 
 ## 4. Notes
 
-- Storage is a simple in-memory Python dictionary (`ITEMS`) in `api/views.py`.
-- A few sample items are hard-coded on startup so that `/api/items/` already
+- Storage is a simple in-memory Python dictionary (`ITEMS`) in `app.py`.
+- A few sample items are hard-coded on startup so that `/items` already
   returns data.
-- When you stop and start `runserver`, all runtime changes are cleared and
-  the data is reset to the initial hard-coded values.
+- When you stop and start the server, all runtime changes are cleared
+  and the data is reset to the initial hard-coded values.
