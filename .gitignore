@@ -1,42 +1,89 @@
-# Python cache/compiled files
+# ----------------------------------------
+# Python
+# ----------------------------------------
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-*.so
+*$py.class
 
 # Virtual environment
 venv/
 env/
-.venv/
 ENV/
+.venv/
+.virtualenv/
 
-# IDE/editor stuff
-.vscode/
-.idea/
-*.swp
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Flask / instance / logs
-instance/
-*.log
-
-# SQLite database files
-*.db
-*.sqlite3
-
-# Environment variables
-.env
-
-# Migrations cache
-migrations/
-
-# Pytest / Coverage
+# Unit test / coverage reports
 htmlcov/
 .tox/
+.nox/
 .coverage
-.cache/
-.pytest_cache/
+.coverage.*
+.cache
+pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+*.log
+
+# ----------------------------------------
+# Django
+# ----------------------------------------
+
+# SQLite database
+db.sqlite3
+db.sqlite3-journal
+
+# Django local settings
+local_settings.py
+
+# Django logs
+logs/
+*.log
+
+# Django static & media (if auto-generated)
+staticfiles/
+static/
+media/
+
+# Django compiled files
+*.mo
+*.pot
+
+# Migrations (optional - if you don't want to commit them)
+# Uncomment below line ONLY if you want migrations ignored
+# */migrations/
+
+# ----------------------------------------
+# Environment variables
+# ----------------------------------------
+*.env
+.env.*
+!.env.example
+
+# ----------------------------------------
+# IDE / Editor junk
+# ----------------------------------------
+
+# VSCode
+.vscode/
+.code-workspace
+
+# PyCharm / JetBrains
+.idea/
+*.iml
+
+# Others
+*.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ----------------------------------------
+# Python packaging
+# ----------------------------------------
+build/
+dist/
+*.egg-info/
+.eggs/
+MANIFEST
