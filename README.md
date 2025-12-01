@@ -1,9 +1,9 @@
-# In-memory Flask CRUD API (No DB)
+# In-memory FastAPI CRUD API (No DB)
 
 Python 3.11  
-Flask 2.3.x
+FastAPI 0.99.x
 
-This is a minimal Flask backend that exposes simple CRUD operations
+This is a minimal FastAPI backend that exposes simple CRUD operations
 over an in-memory store (a Python dict). **No database is used** and
 everything resets whenever you restart the server.
 
@@ -21,10 +21,14 @@ pip install -r requirements.txt
 ## 2. Run the server
 
 ```bash
-python app.py
+uvicorn main:app --reload
 ```
 
-Server will start at: <http://127.0.0.1:5000/>
+Server will start at: <http://127.0.0.1:8000/>
+
+Interactive API docs (Swagger UI):
+
+- <http://127.0.0.1:8000/docs>
 
 ## 3. API endpoints
 
@@ -49,13 +53,13 @@ Body:
 
 ### Retrieve single item
 
-**GET** `/items/<id>`
+**GET** `/items/{id}`
 
 Example: `/items/1`
 
 ### Update item
 
-**PUT** `/items/<id>`
+**PUT** `/items/{id}`
 
 Body (fields optional, missing fields keep old values):
 
@@ -68,9 +72,9 @@ Body (fields optional, missing fields keep old values):
 
 ### Delete item
 
-**DELETE** `/items/<id>`
+**DELETE** `/items/{id}`
 
-Response (204 No Content):
+Response:
 
 ```json
 {
@@ -80,7 +84,7 @@ Response (204 No Content):
 
 ## 4. Notes
 
-- Storage is a simple in-memory Python dictionary (`ITEMS`) in `app.py`.
+- Storage is a simple in-memory Python dictionary (`ITEMS`) in `main.py`.
 - A few sample items are hard-coded on startup so that `/items` already
   returns data.
 - When you stop and start the server, all runtime changes are cleared
