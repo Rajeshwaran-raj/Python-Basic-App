@@ -1,0 +1,74 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Pip installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Pytest / coverage
+.coverage
+*.cover
+coverage.xml
+htmlcov/
+
+# Byte-compiled files & caches
+*.log
+*.pot
+*.pyc
+.DS_Store
+
+# ---- FastAPI / Flask / Django ----
+
+# SQLite (not used here, but ignore anyway)
+*.sqlite3
+db.sqlite3
+
+# Django specific
+staticfiles/
+media/
+*.mo
+*.log
+
+# Uvicorn / Gunicorn logs
+*.pid
+
+# Environment variables
+.env
+.env.*
+*.env
+
+# Editor-specific
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Mac & Windows
+Thumbs.db
+desktop.ini
+
+# Dist, build, packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# MyPy
+.mypy_cache/
+
+# Pydantic / FastAPI cache (rare but good to ignore)
+.pytest_cache/
+
+# ---- ZIPs or generated files ----
+*.zip
+
