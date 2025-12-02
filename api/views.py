@@ -1,90 +1,50 @@
+
 import json
-from django.http import JsonResponse, HttpResponseNotAllowed
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 
-# In-memory storage with some hard-coded values
-ITEMS = {
-    1: {"id": 1, "name": "Sample Item 1", "description": "First hard-coded item"},
-    2: {"id": 2, "name": "Sample Item 2", "description": "Second hard-coded item"},
-}
-NEXT_ID = 3
+ITEMS=[]
+NEXT_ID=1
 
-
-def parse_body(request):
-    """Parse JSON body safely."""
-    if not request.body:
-        return {}
-    try:
-        return json.loads(request.body.decode('utf-8'))
-    except json.JSONDecodeError:
-        return {}
-
-
-@csrf_exempt
-def item_list_create(request):
-    """
-    GET  /api/items/         -> list all items
-    POST /api/items/         -> create a new item (in-memory)
-    """
+def _get_next_id():
     global NEXT_ID
+    i=NEXT_ID; NEXT_ID+=1; return i
 
-    if request.method == "GET":
-        data = list(ITEMS.values())
-        return JsonResponse(data, safe=False, status=200)
-
-    if request.method == "POST":
-        body = parse_body(request)
-
-        name = body.get("name")
-        description = body.get("description", "")
-
-        if not name:
-            return JsonResponse(
-                {"error": "Field 'name' is required."},
-                status=400,
-            )
-
-        item_id = NEXT_ID
-        NEXT_ID += 1
-
-        item = {
-            "id": item_id,
-            "name": name,
-            "description": description,
-        }
-
-        ITEMS[item_id] = item
-        return JsonResponse(item, status=201)
-
-    return HttpResponseNotAllowed(["GET", "POST"])
-
+def _find_item(i):
+    for it in ITEMS:
+        if it["id"]==i: return it
+    return None
 
 @csrf_exempt
-def item_detail(request, item_id):
-    """
-    GET    /api/items/<id>/  -> retrieve one item
-    PUT    /api/items/<id>/  -> update item
-    DELETE /api/items/<id>/  -> delete item
-    """
-    if item_id not in ITEMS:
-        return JsonResponse({"error": "Item not found."}, status=404)
+def items_collection(request):
+    if request.method=="GET":
+        return JsonResponse(ITEMS, safe=False)
+    if request.method=="POST":
+        try: data=json.loads(request.body or "{}")
+        except: return HttpResponseBadRequest("Invalid JSON")
+        if not data.get("title"): return HttpResponseBadRequest("title required")
+        item={"id":_get_next_id(),"title":data["title"],"description":data.get("description","")}
+        ITEMS.append(item)
+        return JsonResponse(item, status=201)
+    return HttpResponseNotAllowed(["GET","POST"])
 
-    if request.method == "GET":
-        return JsonResponse(ITEMS[item_id], status=200)
-
-    if request.method == "PUT":
-        body = parse_body(request)
-
-        name = body.get("name", ITEMS[item_id]["name"])
-        description = body.get("description", ITEMS[item_id]["description"])
-
-        ITEMS[item_id]["name"] = name
-        ITEMS[item_id]["description"] = description
-
-        return JsonResponse(ITEMS[item_id], status=200)
-
-    if request.method == "DELETE":
-        del ITEMS[item_id]
-        return JsonResponse({"message": "Item deleted."}, status=204, safe=False)
-
-    return HttpResponseNotAllowed(["GET", "PUT", "DELETE"])
+@csrf_exempt
+def item_detail(request,item_id):
+    it=_find_item(item_id)
+    if not it: return JsonResponse({"detail":"Not found"},status=404)
+    if request.method=="GET":
+        return JsonResponse(it)
+    if request.method in ("PUT","PATCH"):
+        try: data=json.loads(request.body or "{}")
+        except: return HttpResponseBadRequest("Invalid JSON")
+        if request.method=="PUT":
+            if not data.get("title"): return HttpResponseBadRequest("title required")
+            it["title"]=data["title"]; it["description"]=data.get("description","")
+        else:
+            if "title" in data: it["title"]=data["title"]
+            if "description" in data: it["description"]=data["description"]
+        return JsonResponse(it)
+    if request.method=="DELETE":
+        ITEMS.remove(it)
+        return JsonResponse({"detail":"deleted"}, status=204)
+    return HttpResponseNotAllowed(["GET","PUT","PATCH","DELETE"])

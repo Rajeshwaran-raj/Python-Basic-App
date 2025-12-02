@@ -1,89 +1,143 @@
-# In-memory Django CRUD API (No DB / No Migrations)
+📦 In-Memory Django CRUD API
 
-Python 3.11  
-Django 4.2 (any 4.2.x)
+A lightweight Django 4.2 backend that performs pure in-memory CRUD operations (no database, no migrations, no ORM).
+Perfect for demos, prototypes, or learning API basics.
 
-This is a minimal backend-only Django project that exposes simple CRUD
-operations over an in-memory store (a Python dict). **No database is used**
-and you **do not need to run any migrations**.
+🚀 Features
 
-Everything is kept in memory and resets whenever you restart the server.
+✅ No database required — all data lives in Python memory
 
-## 1. Setup
+✅ No migrations — Django runs without creating any DB tables
 
-```bash
-python -m venv venv
-# Windows: venv\Scripts\activate
-# Linux/macOS:
-source venv/bin/activate
+✅ Simple CRUD API using pure Python lists
+
+✅ Zero external dependencies (only Django)
+
+✅ Fast to run & restart
+
+❗ Data resets automatically on each server restart (because it's in-memory)
+
+🗂 Project Structure
+inmemory_crud/
+├── manage.py
+├── requirements.txt
+├── inmemory_crud/
+│   ├── __init__.py
+│   ├── settings.py       ← No migrations needed
+│   ├── urls.py
+└── api/
+    ├── __init__.py
+    ├── urls.py
+    ├── views.py          ← In-memory CRUD logic
+
+⚙️ Requirements
+
+Python 3.11+
+
+Django 4.2.*
+
+Install requirements:
 
 pip install -r requirements.txt
-```
 
-## 2. Run the dev server (no migrations needed)
-
-```bash
+▶️ Run the Server
 python manage.py runserver
-```
 
-Server will start at: <http://127.0.0.1:8000/>
 
-## 3. API endpoints
+Server will start at:
 
-Base path for the API is `/api/`.
+http://127.0.0.1:8000/
 
-### List items
+📡 API Endpoints (CRUD)
 
-**GET** `/api/items/`
+Base URL:
 
-### Create item
+http://127.0.0.1:8000/api/items/
 
-**POST** `/api/items/`
+
+All data is stored inside a global list in views.py.
+
+➕ Create Item
+
+POST /api/items/
 
 Body:
 
-```json
 {
-  "name": "First Item",
-  "description": "My first in-memory item"
+  "title": "My Item",
+  "description": "Some description"
 }
-```
 
-### Retrieve single item
 
-**GET** `/api/items/<id>/`
+Response (201):
 
-Example: `/api/items/1/`
-
-### Update item
-
-**PUT** `/api/items/<id>/`
-
-Body (fields optional, missing fields keep old values):
-
-```json
 {
-  "name": "Updated name",
-  "description": "Updated description"
+  "id": 1,
+  "title": "My Item",
+  "description": "Some description"
 }
-```
 
-### Delete item
+📄 List All Items
 
-**DELETE** `/api/items/<id>/`
+GET /api/items/
 
-Response (204 No Content):
+Response:
 
-```json
+[
+  {
+    "id": 1,
+    "title": "My Item",
+    "description": "Some description"
+  }
+]
+
+🔍 Get Single Item
+
+GET /api/items/<id>/
+
+📝 Update Entire Item
+
+PUT /api/items/<id>/
+
 {
-  "message": "Item deleted."
+  "title": "Updated title",
+  "description": "Updated details"
 }
-```
 
-## 4. Notes
+✏️ Partial Update
 
-- Storage is a simple in-memory Python dictionary (`ITEMS`) in `api/views.py`.
-- A few sample items are hard-coded on startup so that `/api/items/` already
-  returns data.
-- When you stop and start `runserver`, all runtime changes are cleared and
-  the data is reset to the initial hard-coded values.
+PATCH /api/items/<id>/
+
+{
+  "description": "Changed only this"
+}
+
+🗑 Delete Item
+
+DELETE /api/items/<id>/
+
+Response:
+
+{"detail": "deleted"}
+
+🛠 How It Works (In-Memory Logic)
+
+Inside api/views.py:
+
+ITEMS = []
+NEXT_ID = 1
+
+
+Every new item gets appended to this list.
+No database, no models, no ORM — just plain Python.
+
+📌 Notes
+
+Data is cleared on every server restart.
+
+No DB file is created because settings.py uses:
+
+"NAME": ":memory:"
+
+
+Suitable for: demos, PoC, tutorials, interview tasks.

@@ -1,7 +1,8 @@
+
 from django.urls import path
 from . import views
 
-urlpatterns = [
-    path('items/', views.item_list_create, name='item_list_create'),
-    path('items/<int:item_id>/', views.item_detail, name='item_detail'),
+urlpatterns=[
+    path("items/", views.items_collection),
+    path("items/<int:item_id>/", views.item_detail),
 ]
