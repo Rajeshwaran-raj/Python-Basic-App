@@ -1,4 +1,8 @@
 from flask import Flask, request, jsonify
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # Load .env file
 
 app = Flask(__name__)
 
@@ -9,23 +13,18 @@ ITEMS = {
 }
 NEXT_ID = 3
 
-
 def get_json_body():
     data = request.get_json(silent=True)
     if data is None:
         return {}
     return data
 
-
 @app.get("/items")
 def list_items():
-    """List all items"""
     return jsonify(list(ITEMS.values())), 200
-
 
 @app.post("/items")
 def create_item():
-    """Create a new item"""
     global NEXT_ID
     body = get_json_body()
 
@@ -38,44 +37,31 @@ def create_item():
     item_id = NEXT_ID
     NEXT_ID += 1
 
-    item = {
-        "id": item_id,
-        "name": name,
-        "description": description,
-    }
+    item = {"id": item_id, "name": name, "description": description}
     ITEMS[item_id] = item
     return jsonify(item), 201
 
-
 @app.get("/items/<int:item_id>")
 def get_item(item_id: int):
-    """Retrieve one item"""
     item = ITEMS.get(item_id)
     if not item:
         return jsonify({"error": "Item not found."}), 404
     return jsonify(item), 200
 
-
 @app.put("/items/<int:item_id>")
 def update_item(item_id: int):
-    """Update an item"""
     item = ITEMS.get(item_id)
     if not item:
         return jsonify({"error": "Item not found."}), 404
 
     body = get_json_body()
-    name = body.get("name", item["name"])
-    description = body.get("description", item["description"])
-
-    item["name"] = name
-    item["description"] = description
+    item["name"] = body.get("name", item["name"])
+    item["description"] = body.get("description", item["description"])
 
     return jsonify(item), 200
 
-
 @app.delete("/items/<int:item_id>")
 def delete_item(item_id: int):
-    """Delete an item"""
     item = ITEMS.get(item_id)
     if not item:
         return jsonify({"error": "Item not found."}), 404
@@ -85,4 +71,8 @@ def delete_item(item_id: int):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    host = os.getenv("FLASK_HOST", "127.0.0.1")
+    port = int(os.getenv("FLASK_PORT", 5000))
+    debug = os.getenv("FLASK_DEBUG", "True") == "True"
+
+    app.run(host=host, port=port, debug=debug)
