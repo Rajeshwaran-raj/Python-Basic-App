@@ -1,0 +1,52 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+
+# ---- Virtual Environments ----
+venv/
+env/
+.venv/
+.env/
+.pex/
+
+# ---- Flask / Runtime ----
+instance/
+*.db
+*.sqlite3
+*.sqlite
+
+# ---- Environment Variables ----
+.env
+*.env
+
+# ---- Logs ----
+*.log
+logs/
+*.out
+
+# ---- IDE / Editor ----
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ---- OS Files ----
+.DS_Store
+Thumbs.db
+
+# ---- Testing ----
+.pytest_cache/
+.coverage
+htmlcov/
+.cache/
+
+# ---- Packaging ----
+pip-wheel-metadata/
